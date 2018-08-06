@@ -18,8 +18,6 @@
 
   <% if @token && @token.card.security_code_check %>
 
-    <%= hidden_field_tag :omise_token, @token.id %>
-
     <div>
       Number<br>
       **** **** **** <%= @token.card.last_digits %>
@@ -44,28 +42,26 @@
 
   <% else %>
 
-    <%= hidden_field_tag :omise_token %>
-
     <div>
       Number<br>
-      <%= text_field_tag nil, nil, placeholder: "XXXX XXXX XXXX XXXX", data: { omise: "number" } %>
+      <%= text_field_tag 'cc_no', nil, placeholder: "XXXX XXXX XXXX XXXX" %>
     </div>
 
     <div>
       Name (as on card)<br>
-      <%= text_field_tag nil, nil, placeholder: "J DOE", data: { omise: "holder_name" } %>
+      <%= text_field_tag 'name', nil, placeholder: "J DOE" %>
     </div>
 
     <div>
       Expires<br>
-      <%= text_field_tag nil, nil, size: 4, placeholder: "XX", data: { omise: "expiration_month" } %>
+      <%= text_field_tag 'expiration_month', nil, size: 4, placeholder: "XX" %>
       /
-      <%= text_field_tag nil, nil, size: 4, placeholder: "XX", data: { omise: "expiration_year" } %>
+      <%= text_field_tag 'expiration_year', nil, size: 4, placeholder: "XX" %>
     </div>
 
     <div>
       Security Code<br>
-      <%= text_field_tag nil, nil, size: 8, placeholder: "XXX", data: { omise: "security_code" } %>
+      <%= text_field_tag 'sec_code', nil, size: 8, placeholder: "XXX" %>
     </div>
 
   <% end %>

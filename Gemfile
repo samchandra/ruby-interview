@@ -13,6 +13,7 @@ gem 'bcrypt', '~> 3.1.12'
 gem 'devise'
 gem 'money'
 gem 'omise'
+gem 'thin'
 
 group :development, :test do
   gem 'byebug'

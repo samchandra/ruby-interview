@@ -18,11 +18,5 @@
 
     <%= yield %>
 
-    <%= javascript_include_tag "https://cdn.omise.co/omise.js" %>
-
-    <%= javascript_tag do %>
-      Omise.setPublicKey("<%= Omise.vault_key %>");
-    <% end %>
-
   </body>
 </html>

@@ -5,10 +5,10 @@ class WebsiteController < ApplicationController
 
   def donate
     charity = Charity.find_by(id: params[:charity])
-    if params[:omise_token].present?
+    if retrieve_token.present?
       unless params[:amount].blank? || params[:amount].to_i <= 20
         unless !charity
-          if Rails.env.test?
+          if Rails.env.development?
             charge = OpenStruct.new({
               amount: params[:amount].to_i * 100,
               paid: (params[:amount].to_i != 999),
@@ -25,13 +25,13 @@ class WebsiteController < ApplicationController
             charity.credit_amount(charge.amount)
           end
         else
-          @token = retrieve_token(params[:omise_token])
+          @token = retrieve_token
           flash.now.alert = t(".failure")
           render :index
           return
         end
       else
-        @token = retrieve_token(params[:omise_token])
+        @token = retrieve_token
         flash.now.alert = t(".failure")
         render :index
         return
@@ -60,20 +60,20 @@ class WebsiteController < ApplicationController
 
   private
 
-  def retrieve_token(token)
-    if Rails.env.test?
+  def retrieve_token
+    if Rails.env.development?
       OpenStruct.new({
         id: "tokn_X",
         card: OpenStruct.new({
-          name: "J DOE",
-          last_digits: "4242",
-          expiration_month: 10,
-          expiration_year: 2020,
-          security_code_check: false,
+          name: params[:name],
+          last_digits: params[:cc_no].split(" ").last,
+          expiration_month: params[:expiration_month],
+          expiration_year: params[:expiration_year],
+          security_code_check: true,
         }),
       })
     else
-      Omise::Token.retrieve(token)
+      nil
     end
   end
 end
